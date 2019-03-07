@@ -1,0 +1,12 @@
+body {
+    display: flex;
+}
+
+.characters-list {
+    border: 2px solid green;
+    flex: 1;
+}
+.character-details {
+    border: 2px solid green;
+    flex: 2;
+}
