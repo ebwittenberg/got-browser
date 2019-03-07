@@ -12,3 +12,7 @@ body {
     border: 2px solid green;
     flex: 2;
 }
+
+.character-details h2, .character-details h1 {
+    margin-left: 20px;
+}
