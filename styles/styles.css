@@ -5,6 +5,8 @@ body {
 .characters-list {
     border: 2px solid green;
     flex: 1;
+    height: 500px;
+    overflow: auto;
 }
 .character-details {
     border: 2px solid green;
