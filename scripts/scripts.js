@@ -11,6 +11,9 @@ let mother = document.querySelector(`[data-mother]`);
 let spouse = document.querySelector(`[data-spouse]`);
 let allegiances = document.querySelector(`[data-allegiances]`);
 
+let resetList = document.querySelector(`[data-reset]`);
+resetList.addEventListener('click', showAllChars);
+
 let topSortDiv = document.querySelector('[data-sort-nums]')
 
 // makes list of letters at the top for sorting
@@ -47,6 +50,7 @@ function getNames(object) {
 }
 getNames(characters);
 
+
 // creates selector that points to all the names
 let allNames = document.querySelectorAll('.char');
 
@@ -63,6 +67,13 @@ function sortList(event) {
         if (name.textContent[0] !== sortLetter) {
             name.style.display = 'none';
         }
+    })
+}
+
+function showAllChars() {
+    // reset the character list (unhide all hidden characters)
+    allNames.forEach(name => {
+        name.style.display = 'block';
     })
 }
 
