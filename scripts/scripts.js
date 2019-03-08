@@ -61,7 +61,12 @@ allNames.forEach(name => {
 
 // function that handles sorting, depending on which letter is clicked by user
 function sortList(event) {
+    charList.forEach(letter => {
+        letter.style.color = 'blue';
+    })
+    event.target.style.color = 'red';
     let sortLetter = event.target.textContent;
+
     allNames.forEach(name => {
         name.style.display = 'block';
         if (name.textContent[0] !== sortLetter) {
@@ -71,6 +76,10 @@ function sortList(event) {
 }
 
 function showAllChars() {
+    // reset sort letters
+    charList.forEach(letter => {
+        letter.style.color = 'blue';
+    })
     // reset the character list (unhide all hidden characters)
     allNames.forEach(name => {
         name.style.display = 'block';
@@ -79,11 +88,18 @@ function showAllChars() {
 
 // gets the character details and prints to right hand details div
 function getCharDetails(event) {
+    // reset selected character color
+    allNames.forEach(name => {
+        name.style.color = 'black';
+    })
+
+
     // reset character details
     details.forEach(detail => {
         detail.textContent = '';
     })
     // saves character name
+    event.target.style.color = 'red';
     let charName = event.target.textContent
 
     // let para = document.createElement('p');

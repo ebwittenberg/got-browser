@@ -20,6 +20,9 @@ nav div h3 {
     flex: 1;
     cursor: pointer;
 }
+nav div h3:hover {
+    color: pink;
+}
 
 .show-all {
     float: right;
