@@ -13,6 +13,7 @@ let allegiances = document.querySelector(`[data-allegiances]`);
 
 let topSortDiv = document.querySelector('[data-sort-nums]')
 
+// makes list of letters at the top for sorting
 let charList = [];
 function makeList() {
     let charCode = 65;
@@ -29,10 +30,12 @@ function makeList() {
 }
 makeList();
 
+// adds event listener to each letter in sorting list
 charList.forEach(letter => {
     letter.addEventListener('click', sortList);
 })
 
+// prints all names to the character names list div
 function getNames(object) {
     object.forEach(character => {
         let para = document.createElement('p');
@@ -44,12 +47,15 @@ function getNames(object) {
 }
 getNames(characters);
 
+// creates selector that points to all the names
 let allNames = document.querySelectorAll('.char');
 
+// attaches event listener to each name
 allNames.forEach(name => {
     name.addEventListener('click', getCharDetails)
 })
 
+// function that handles sorting, depending on which letter is clicked by user
 function sortList(event) {
     let sortLetter = event.target.textContent;
     allNames.forEach(name => {
@@ -60,6 +66,7 @@ function sortList(event) {
     })
 }
 
+// gets the character details and prints to right hand details div
 function getCharDetails(event) {
     // reset character details
     details.forEach(detail => {
