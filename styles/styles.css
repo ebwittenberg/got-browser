@@ -1,5 +1,10 @@
-body {
+.main-container {
+    margin-top: 50px;
     display: flex;
+}
+
+nav {
+    border: 2px solid red;
 }
 
 .characters-list {

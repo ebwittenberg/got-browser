@@ -13,17 +13,25 @@ let allegiances = document.querySelector(`[data-allegiances]`);
 
 let topSortDiv = document.querySelector('[data-sort-nums]')
 
+let charList = [];
 function makeList() {
     let charCode = 65;
     while (charCode <= 90) {
         let letter = String.fromCharCode(charCode);
-        let newH3 = document.createElement('h3')
+        let newH3 = document.createElement('h3');
+        newH3.style.margin = '5px';
+        newH3.style.display = 'inline-block';
         newH3.textContent = letter;
-        topSortDiv.append(letter);
+        topSortDiv.append(newH3);
+        charList.push(newH3);
         charCode += 1;
     }
 }
 makeList();
+
+charList.forEach(letter => {
+    letter.addEventListener('click', sortList);
+})
 
 function getNames(object) {
     object.forEach(character => {
@@ -41,6 +49,16 @@ let allNames = document.querySelectorAll('.char');
 allNames.forEach(name => {
     name.addEventListener('click', getCharDetails)
 })
+
+function sortList(event) {
+    let sortLetter = event.target.textContent;
+    allNames.forEach(name => {
+        name.style.display = 'block';
+        if (name.textContent[0] !== sortLetter) {
+            name.style.display = 'none';
+        }
+    })
+}
 
 function getCharDetails(event) {
     // reset character details
