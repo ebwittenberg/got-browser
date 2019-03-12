@@ -16,7 +16,6 @@ resetList.addEventListener('click', showAllChars);
 
 let topSortDiv = document.querySelector('[data-sort-nums]')
 
-
 // prints all names to the character names list div
 function getNames(object) {
     // object.forEach(character => {
@@ -59,18 +58,19 @@ function getCharactersInfo() {
     Promise.all(promisesArray)
         // take the result of that promise and put into charactersArray
         .then(function(characterData) {
+            // console.log(characterData);
             characterData.forEach(function(charactersArray) {
                 charactersArray.forEach(character => {
                     getNames(character);
                 });
             })
         })
-        .catch(err => console.log(err));
 
 }
 
 getCharactersInfo();
 
+// creates another array of promises and finds the character that matches the clicked name
 function getCharactersDetails(charName) {
 
     let promisesArray2 = [];
@@ -106,44 +106,13 @@ function getDetails(event) {
     let characterName = event.target.textContent;
     getCharactersDetails(characterName);
 }
-// add event listener to a targetted name
 
 
-// function getCharDetails(event) {
-
-//     // reset character details
-//     details.forEach(detail => {
-//         detail.textContent = '';
-//     })
-//     // saves character name
-//     let charName = event.target.textContent;
 
 
-//     // let para = document.createElement('p');
-//     // loop through characters
-//     characters.forEach(character => {
-//         if (character.name === charName) {
-//             name.textContent = `Name: ${character.name}`;
-//             if (character.born.length) {
-//                 born.textContent = `Born: ${character.born}`;
-//             } else {
-//                 born.textContent = `Born: unknown`;
-//             }
-//             if (character.died.length) {
-//                 died.textContent = `Died: ${character.died}`;
-//             } else {
-//                 died.textContent = 'Died: Still alive (as far as we know)'
-//             }
-//             titles.textContent = `Titles: ${character.titles}`;
-//             aliases.textContent = `Aliases: ${character.aliases}`;
-//         }
-//     })
 
 
-// }
 
-// creates selector that points to all the names
-// let allNames = document.querySelectorAll('.char');
 
 
 // function that handles sorting, depending on which letter is clicked by user
