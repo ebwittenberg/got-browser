@@ -16,27 +16,6 @@ resetList.addEventListener('click', showAllChars);
 
 let topSortDiv = document.querySelector('[data-sort-nums]')
 
-// makes list of letters at the top for sorting
-let charList = [];
-function makeList() {
-    let charCode = 65;
-    while (charCode <= 90) {
-        let letter = String.fromCharCode(charCode);
-        let newH3 = document.createElement('h3');
-        newH3.style.margin = '5px';
-        newH3.style.display = 'inline-block';
-        newH3.textContent = letter;
-        topSortDiv.append(newH3);
-        charList.push(newH3);
-        charCode += 1;
-    }
-}
-makeList();
-
-// adds event listener to each letter in sorting list
-charList.forEach(letter => {
-    letter.addEventListener('click', sortList);
-})
 
 // prints all names to the character names list div
 function getNames(object) {
@@ -45,18 +24,24 @@ function getNames(object) {
         para.classList.add('char');
         para.textContent = object.name;
         // adds event listener to each newly created paragraph tag, calls getCharDetails when clicked
-        para.addEventListener('click', getCharDetails);
+        para.addEventListener('click', getDetails);
         namesDiv.append(para);
 }
 
-// holds array of promises
 let promisesArray = [];
-for (let i = 0; i < 44; i++) {
-    let currentPageURL = `https://www.anapioficeandfire.com/api/characters?page=${i}&pageSize=50`
 
-    fetchRequest(currentPageURL);
+// loops through all pages of GOT characters and calls fetchRequest
+function createURLs() {
+    for (let i = 0; i < 44; i++) {
+        let currentPageURL = `https://www.anapioficeandfire.com/api/characters?page=${i}&pageSize=50`
+    
+        fetchRequest(currentPageURL);
+    }
 }
 
+createURLs();
+
+// takes URL from createURLs function and pushes the fetch request to the promisesArray
 function fetchRequest(characterURL) {
     let request = fetch(characterURL)
     .then(response => response.json())
@@ -66,55 +51,96 @@ function fetchRequest(characterURL) {
 }
 
 let charactersArray = [];
-// when all promises are resolved
-Promise.all(promisesArray)
-    // take the result of that promise and put into charactersArray
-    .then(function(characterData) {
-        characterData.forEach(function(charactersArray) {
-            charactersArray.forEach(character => {
-                getNames(character);
-            });
+
+// uses Promise.all on array of promises, then calls getNames on each character object
+function getCharactersInfo() {
+
+    // when all promises are resolved
+    Promise.all(promisesArray)
+        // take the result of that promise and put into charactersArray
+        .then(function(characterData) {
+            characterData.forEach(function(charactersArray) {
+                charactersArray.forEach(character => {
+                    getNames(character);
+                });
+            })
         })
+        .catch(err => console.log(err));
+
+}
+
+getCharactersInfo();
+
+function getCharactersDetails(charName) {
+
+    let promisesArray2 = [];
+
+    for (let i = 0; i < 44; i++) {
+        let currentPageURL = `https://www.anapioficeandfire.com/api/characters?page=${i}&pageSize=50`;
+        let request = fetch(currentPageURL)
+        .then(response => response.json())
+
+        promisesArray2.push(request)
+    }
+
+    // when all promises are resolved
+    Promise.all(promisesArray2)
+        .then(function(characterData) {
+            characterData.forEach(function(charactersArray) {
+                charactersArray.forEach(character => {
+                    if (character.name === charName) {
+                        name.textContent = `Name: ${character.name}`;
+                        born.textContent = `Born: ${character.born}`;
+                        titles.textContent = `Titles: ${character.titles}`;
+                        aliases.textContent = `Aliases: ${character.aliases}`
+                    };
+            })
+        })
+
     })
+} 
 
 
 
+function getDetails(event) {
+    let characterName = event.target.textContent;
+    getCharactersDetails(characterName);
+}
 // add event listener to a targetted name
 
 
-function getCharDetails(event) {
+// function getCharDetails(event) {
+
+//     // reset character details
+//     details.forEach(detail => {
+//         detail.textContent = '';
+//     })
+//     // saves character name
+//     let charName = event.target.textContent;
 
 
-
-    // reset character details
-    details.forEach(detail => {
-        detail.textContent = '';
-    })
-    // saves character name
-    let charName = event.target.textContent
-
-    // let para = document.createElement('p');
-    // loop through characters
-    characters.forEach(character => {
-        if (character.name === charName) {
-            name.textContent = `Name: ${character.name}`;
-            if (character.born.length) {
-                born.textContent = `Born: ${character.born}`;
-            } else {
-                born.textContent = `Born: unknown`;
-            }
-            if (character.died.length) {
-                died.textContent = `Died: ${character.died}`;
-            } else {
-                died.textContent = 'Died: Still alive (as far as we know)'
-            }
-            titles.textContent = `Titles: ${character.titles}`;
-            aliases.textContent = `Aliases: ${character.aliases}`;
-        }
-    })
+//     // let para = document.createElement('p');
+//     // loop through characters
+//     characters.forEach(character => {
+//         if (character.name === charName) {
+//             name.textContent = `Name: ${character.name}`;
+//             if (character.born.length) {
+//                 born.textContent = `Born: ${character.born}`;
+//             } else {
+//                 born.textContent = `Born: unknown`;
+//             }
+//             if (character.died.length) {
+//                 died.textContent = `Died: ${character.died}`;
+//             } else {
+//                 died.textContent = 'Died: Still alive (as far as we know)'
+//             }
+//             titles.textContent = `Titles: ${character.titles}`;
+//             aliases.textContent = `Aliases: ${character.aliases}`;
+//         }
+//     })
 
 
-}
+// }
 
 // creates selector that points to all the names
 // let allNames = document.querySelectorAll('.char');
@@ -147,4 +173,26 @@ function showAllChars() {
     })
 }
 
-// gets the character details and prints to right hand details div
+
+
+// makes list of letters at the top for sorting
+let charList = [];
+function makeList() {
+    let charCode = 65;
+    while (charCode <= 90) {
+        let letter = String.fromCharCode(charCode);
+        let newH3 = document.createElement('h3');
+        newH3.style.margin = '5px';
+        newH3.style.display = 'inline-block';
+        newH3.textContent = letter;
+        topSortDiv.append(newH3);
+        charList.push(newH3);
+        charCode += 1;
+    }
+}
+makeList();
+
+// adds event listener to each letter in sorting list
+charList.forEach(letter => {
+    letter.addEventListener('click', sortList);
+})
