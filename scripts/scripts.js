@@ -45,7 +45,6 @@ function getNames(object) {
         para.classList.add('char');
         para.textContent = character.name;
         namesDiv.append(para);
-        
     })
 }
 getNames(characters);
